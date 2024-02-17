@@ -15,9 +15,10 @@ export interface ISignupRequest {
 	password: string;
 }
 
-export interface ICreateStationRequest {
-	station_id: string;
-	station_name: string;
-	longitude: number;
-	latitude: number;
+export interface IReportRequest {
+	nid: string;
+	location: string;
+	productName: string;
+	price: string;
+	message: string;
 }
