@@ -7,6 +7,9 @@ import { toast } from "react-toastify";
 import { ISignupRequest } from "../models/Auth";
 import { useState } from "react";
 import { HidePasswordIcon, ShowPasswordIcon } from "../elements/Icon";
+import { getBaseUrl } from "../hooks/baseUrl";
+import axios from "axios";
+import { routes } from "../constants/Route";
 
 const validationSchema = Yup.object({
 	name: Yup.string().required("Name is required"),
@@ -35,10 +38,19 @@ const SignupForm = () => {
 	});
 
 	const onSubmit: SubmitHandler<ISignupRequest> = async (payload) => {
-		console.log(payload);
-		toast.success("Signup successful!", {
-			autoClose: autoClose,
-		});
+		try {
+			const url = getBaseUrl() + "/auth/register";
+			await axios.post(url, payload);
+			toast.success("Registered successfully!", {
+				autoClose,
+			});
+			navigate(routes.login.path);
+		} catch (error) {
+			toast.error("Email is already taken. Please choose another email.", {
+				autoClose,
+			});
+			console.log(error);
+		}
 	};
 
 	const togglePasswordVisibility = (): void => {
