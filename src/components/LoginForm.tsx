@@ -50,7 +50,7 @@ const LoginForm = () => {
 
 			if (response.data.role === "ADMIN") navigate(routes.adminPanel.path);
 			else if (response.data.role === "GOVT") navigate(routes.govtPanel.path);
-			else navigate(routes.reportPage.path);
+			else navigate(routes.home.path);
 
 			toast.success("Login successful!", {
 				autoClose: autoClose,
