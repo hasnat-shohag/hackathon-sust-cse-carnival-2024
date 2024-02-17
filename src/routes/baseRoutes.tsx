@@ -10,6 +10,7 @@ import NotFoundPage from "../pages/NotFoundPage";
 import AdminPanel from "../pages/AdminPanel";
 import PublicWrapper from "../components/Layout/PublicWrapper";
 import ReportPage from "../pages/ReportPage";
+import GovtPanel from "../pages/GovtPanel";
 
 const MainRoutes = createBrowserRouter([
 	{
@@ -55,7 +56,7 @@ const MainRoutes = createBrowserRouter([
 			},
 			{
 				path: routes.govtPanel.path,
-				element: <AdminPanel />,
+				element: <GovtPanel />,
 			},
 		],
 	},

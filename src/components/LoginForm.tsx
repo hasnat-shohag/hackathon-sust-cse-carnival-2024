@@ -8,6 +8,10 @@ import { ILoginRequest } from "../models/Auth";
 import { useState } from "react";
 import { HidePasswordIcon, ShowPasswordIcon } from "../elements/Icon";
 import { routes } from "../constants/Route";
+import { getBaseUrl } from "../hooks/baseUrl";
+import axios from "axios";
+import { LOCAL_STORAGE_KEYS } from "../constants/Global";
+import { setToStorage } from "../utils/token";
 
 const validationSchema = Yup.object({
 	email: Yup.string()
@@ -37,7 +41,17 @@ const LoginForm = () => {
 		payload: ILoginRequest
 	) => {
 		try {
-			console.log(payload);
+			const url = getBaseUrl() + "/auth/login";
+			const response = await axios.post(url, payload);
+
+			setToStorage(LOCAL_STORAGE_KEYS.AUTH_TOKEN, response.data.token);
+			setToStorage(LOCAL_STORAGE_KEYS.AUTH_EMAIL, response.data.email);
+			setToStorage(LOCAL_STORAGE_KEYS.AUTH_NAME, response.data.name);
+
+			if (response.data.role === "ADMIN") navigate(routes.adminPanel.path);
+			else if (response.data.role === "GOVT") navigate(routes.govtPanel.path);
+			else navigate(routes.reportPage.path);
+
 			toast.success("Login successful!", {
 				autoClose: autoClose,
 			});
