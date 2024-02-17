@@ -1,3 +1,6 @@
+import { LOCAL_STORAGE_KEYS } from "../constants/Global";
+import { clearStorage, getAuthToken } from "../utils/token";
+
 const Navbar = () => {
 	const navItems = [
 		{
@@ -15,12 +18,15 @@ const Navbar = () => {
 			key: "report",
 			path: "/report-page",
 		},
-		{
-			title: "Log in",
-			key: "login",
-			path: "/login",
-		},
 	];
+
+	const token = getAuthToken();
+
+	const handleLogout = (): void => {
+		clearStorage(LOCAL_STORAGE_KEYS.AUTH_TOKEN);
+		clearStorage(LOCAL_STORAGE_KEYS.AUTH_EMAIL);
+		clearStorage(LOCAL_STORAGE_KEYS.AUTH_NAME);
+	};
 
 	return (
 		<nav className="bg-gray-800 px-10">
@@ -43,6 +49,15 @@ const Navbar = () => {
 								</a>
 							</li>
 						))}
+						<li className="text-white">
+							{token ? (
+								<a href="/" onClick={handleLogout}>
+									log out
+								</a>
+							) : (
+								<a href="/login">log in</a>
+							)}
+						</li>
 					</ul>
 				</div>
 			</div>
