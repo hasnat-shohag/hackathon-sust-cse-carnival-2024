@@ -4,19 +4,19 @@ import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "react-toastify";
 
-import { ILoginRequest } from "../models/Auth";
+import { ISignupRequest } from "../models/Auth";
 import { useState } from "react";
 import { HidePasswordIcon, ShowPasswordIcon } from "../elements/Icon";
-import { routes } from "../constants/Route";
 
 const validationSchema = Yup.object({
+	name: Yup.string().required("Name is required"),
 	email: Yup.string()
 		.email("Invalid email format")
 		.required("Email is required"),
 	password: Yup.string().required("Password is required"),
 });
 
-const LoginForm = () => {
+const SignupForm = () => {
 	const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
 
 	const navigate = useNavigate();
@@ -25,27 +25,20 @@ const LoginForm = () => {
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm<ILoginRequest>({
-		resolver: yupResolver<ILoginRequest>(validationSchema),
+	} = useForm<ISignupRequest>({
+		resolver: yupResolver<ISignupRequest>(validationSchema),
 		defaultValues: {
+			name: "",
 			email: "",
 			password: "",
 		},
 	});
 
-	const onSubmit: SubmitHandler<ILoginRequest> = async (
-		payload: ILoginRequest
-	) => {
-		try {
-			console.log(payload);
-			toast.success("Login successful!", {
-				autoClose: autoClose,
-			});
-		} catch (error) {
-			toast.error(error.message, {
-				autoClose: autoClose,
-			});
-		}
+	const onSubmit: SubmitHandler<ISignupRequest> = async (payload) => {
+		console.log(payload);
+		toast.success("Signup successful!", {
+			autoClose: autoClose,
+		});
 	};
 
 	const togglePasswordVisibility = (): void => {
@@ -56,21 +49,33 @@ const LoginForm = () => {
 		<div className="py-8 2xl:py-12">
 			<div className="flex justify-center">
 				<p className="flex justify- text-sm">
-					Don't have an account?&nbsp;
+					Have an account?&nbsp;
 					<span
 						className=" text-[#5630FF] text-sm font-medium cursor-pointer"
-						onClick={() => navigate(routes.signup.path)}
+						onClick={() => navigate("/login")}
 					>
-						Sign Up!
+						Sign In!
 					</span>
 				</p>
 			</div>
 			<div className="mt-12 2xl:mt-16 flex flex-col justify-center items-center ">
-				<h2 className="text-4xl font-semibold">Welcome Back</h2>
-				<h3 className="mt-2 text-lg">Login into your account</h3>
+				<h2 className="text-4xl font-semibold">Get Started With Contacts</h2>
+				<h3 className="mt-2 text-lg">Getting started is easy</h3>
 			</div>
 			<div className="flex flex-col justify-center items-center mt-10">
 				<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
+					<div className="mb-4">
+						<input
+							type="text"
+							id="name"
+							{...register("name")}
+							placeholder="Name"
+							className="rounded-lg w-full px-3 py-4 pr-12 text-deep-blue text-base border-2 border-silver-cloud placeholder:text-tranquil-blue"
+						/>
+						{errors.name && (
+							<p className="text-red-500 text-sm">{errors.name?.message}</p>
+						)}
+					</div>
 					<div className="mb-4">
 						<input
 							type="email"
@@ -116,7 +121,7 @@ const LoginForm = () => {
 						type="submit"
 						className="flex items-center justify-center bg-[#5630FF] text-white border border-[#DFDFDF] rounded-lg px-12 py-5  w-100 font-semibold text-lg"
 					>
-						Log In
+						Create Account
 					</button>
 				</form>
 			</div>
@@ -124,4 +129,4 @@ const LoginForm = () => {
 	);
 };
 
-export default LoginForm;
+export default SignupForm;
