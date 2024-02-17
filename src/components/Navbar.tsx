@@ -29,7 +29,7 @@ const Navbar = () => {
 	};
 
 	return (
-		<nav className="bg-gray-800 px-10">
+		<nav className="bg-gray-800 px-14">
 			<div className="flex justify-between py-4 items-center">
 				{/* Left Side */}
 				<div>
