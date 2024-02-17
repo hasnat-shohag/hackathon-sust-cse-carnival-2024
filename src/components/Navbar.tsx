@@ -24,10 +24,14 @@ const Navbar = () => {
 
 	return (
 		<nav className="bg-gray-800 px-10">
-			<div className="flex justify-between py-4">
+			<div className="flex justify-between py-4 items-center">
 				{/* Left Side */}
 				<div>
-					<input type="search" placeholder="Search" />
+					<input
+						type="search"
+						placeholder="Search"
+						className="py-2 rounded-lg pl-5 pr-2"
+					/>
 				</div>
 				{/* Right Side */}
 				<div>

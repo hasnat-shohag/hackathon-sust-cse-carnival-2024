@@ -17,7 +17,6 @@ export interface ISignupRequest {
 
 export interface IReportRequest {
 	nid: string;
-	location: string;
 	productName: string;
 	price: string;
 	message: string;

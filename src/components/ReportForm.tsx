@@ -12,13 +12,11 @@ import React, { useState } from "react";
 
 const validationSchema = Yup.object({
 	nid: Yup.string().required("NID number is required"),
-	location: Yup.string(),
 	productName: Yup.string(),
 	price: Yup.string().required("Price is required"),
 	message: Yup.string(),
 });
 
-const locations = ["Rajshahi Sadar", "Puthia", "Bagha", "Godagari", "Durgapur"];
 const productNames = ["Beef", "Mutton", "Egg", "Onion"];
 
 const ReportForm = () => {
@@ -32,7 +30,6 @@ const ReportForm = () => {
 		resolver: yupResolver<IReportRequest>(validationSchema),
 		defaultValues: {
 			nid: "",
-			location: "",
 			productName: "",
 			price: "",
 			message: "",
@@ -55,15 +52,8 @@ const ReportForm = () => {
 		}
 	};
 
-	const [selectedLocation, setSelectedLocation] = useState<string>("location");
 	const [selectedProductName, setSelectedProductName] =
 		useState<string>("product name");
-
-	const handleLocationSelection = (
-		event: React.ChangeEvent<HTMLSelectElement>
-	) => {
-		setSelectedLocation(event.target.value);
-	};
 
 	const handleProductNameSelection = (
 		event: React.ChangeEvent<HTMLSelectElement>
@@ -85,28 +75,14 @@ const ReportForm = () => {
 							type="text"
 							id="nid"
 							{...register("nid")}
-							placeholder="Name"
+							placeholder="NID Number" 
 							className="rounded-lg w-full px-3 py-4 pr-12 text-deep-blue text-base border-2 border-silver-cloud placeholder:text-tranquil-blue"
 						/>
 						{errors.nid && (
 							<p className="text-red-500 text-sm">{errors.nid?.message}</p>
 						)}
 					</div>
-					<div className="mb-4">
-						<select
-							id="location"
-							name="location"
-							className="rounded-lg w-full px-3 py-4 pr-12 text-deep-blue text-base border-2 border-silver-cloud placeholder:text-tranquil-blue bg-white"
-							onChange={handleLocationSelection}
-							value={selectedLocation}
-						>
-							{locations.map((location) => (
-								<option key={location} value={location}>
-									{location}
-								</option>
-							))}
-						</select>
-					</div>
+
 					<div className="mb-4">
 						<select
 							id="productName"
@@ -115,9 +91,9 @@ const ReportForm = () => {
 							onChange={handleProductNameSelection}
 							value={selectedProductName}
 						>
-							{productNames.map((location) => (
-								<option key={location} value={location}>
-									{location}
+							{productNames.map((product) => (
+								<option key={product} value={product}>
+									{product}
 								</option>
 							))}
 						</select>

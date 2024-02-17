@@ -74,9 +74,9 @@ const GovtPanelForm = () => {
 							onChange={handleProductNameSelection}
 							value={selectedProductName}
 						>
-							{productNames.map((location) => (
-								<option key={location} value={location}>
-									{location}
+							{productNames.map((product) => (
+								<option key={product} value={product}>
+									{product}
 								</option>
 							))}
 						</select>
