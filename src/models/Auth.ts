@@ -22,3 +22,9 @@ export interface IReportRequest {
 	price: string;
 	message: string;
 }
+
+export interface IGovtPanelRequest {
+	productName: string;
+	setPrice: string;
+	marketPrice: string;
+}

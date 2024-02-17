@@ -4,66 +4,54 @@ import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "react-toastify";
 
-import { IReportRequest } from "../models/Auth";
+import { IGovtPanelRequest, IReportRequest } from "../models/Auth";
 import { getBaseUrl } from "../hooks/baseUrl";
 import axios from "axios";
 import { routes } from "../constants/Route";
 import React, { useState } from "react";
 
 const validationSchema = Yup.object({
-	nid: Yup.string().required("NID number is required"),
-	location: Yup.string(),
 	productName: Yup.string(),
-	price: Yup.string().required("Price is required"),
-	message: Yup.string(),
+	setPrice: Yup.string().required("Price is required"),
+	marketPrice: Yup.string().required("Market price is required"),
 });
 
-const locations = ["Rajshahi Sadar", "Puthia", "Bagha", "Godagari", "Durgapur"];
 const productNames = ["Beef", "Mutton", "Egg", "Onion"];
 
-const ReportForm = () => {
+const GovtPanelForm = () => {
 	const navigate = useNavigate();
 	const autoClose = 1500;
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm<IReportRequest>({
-		resolver: yupResolver<IReportRequest>(validationSchema),
+	} = useForm<IGovtPanelRequest>({
+		resolver: yupResolver<IGovtPanelRequest>(validationSchema),
 		defaultValues: {
-			nid: "",
-			location: "",
 			productName: "",
-			price: "",
-			message: "",
+			setPrice: "",
+			marketPrice: "",
 		},
 	});
 
-	const onSubmit: SubmitHandler<IReportRequest> = async (payload) => {
+	const onSubmit: SubmitHandler<IGovtPanelRequest> = async (payload) => {
 		try {
 			const url = getBaseUrl() + "/auth/register"; // Endpoint update later
 			await axios.post(url, payload);
-			toast.success("Reported successfully!", {
+			toast.success("Todays price updated successfully!", {
 				autoClose,
 			});
 			navigate(routes.home.path);
 		} catch (error) {
 			toast.error("An error occured", {
-				autoClose,
+				autoClose: autoClose,
 			});
 			console.log(error);
 		}
 	};
 
-	const [selectedLocation, setSelectedLocation] = useState<string>("location");
 	const [selectedProductName, setSelectedProductName] =
 		useState<string>("product name");
-
-	const handleLocationSelection = (
-		event: React.ChangeEvent<HTMLSelectElement>
-	) => {
-		setSelectedLocation(event.target.value);
-	};
 
 	const handleProductNameSelection = (
 		event: React.ChangeEvent<HTMLSelectElement>
@@ -81,33 +69,6 @@ const ReportForm = () => {
 			<div className="flex flex-col justify-center items-center mt-10">
 				<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
 					<div className="mb-4">
-						<input
-							type="text"
-							id="nid"
-							{...register("nid")}
-							placeholder="Name"
-							className="rounded-lg w-full px-3 py-4 pr-12 text-deep-blue text-base border-2 border-silver-cloud placeholder:text-tranquil-blue"
-						/>
-						{errors.nid && (
-							<p className="text-red-500 text-sm">{errors.nid?.message}</p>
-						)}
-					</div>
-					<div className="mb-4">
-						<select
-							id="location"
-							name="location"
-							className="rounded-lg w-full px-3 py-4 pr-12 text-deep-blue text-base border-2 border-silver-cloud placeholder:text-tranquil-blue bg-white"
-							onChange={handleLocationSelection}
-							value={selectedLocation}
-						>
-							{locations.map((location) => (
-								<option key={location} value={location}>
-									{location}
-								</option>
-							))}
-						</select>
-					</div>
-					<div className="mb-4">
 						<select
 							id="productName"
 							name="productName"
@@ -122,28 +83,31 @@ const ReportForm = () => {
 							))}
 						</select>
 					</div>
+
 					<div className="mb-4">
 						<input
 							type="text"
-							id="price"
-							{...register("price")}
-							placeholder="Price "
+							id="setPrice"
+							{...register("setPrice")}
+							placeholder="Set Price"
 							className="rounded-lg w-full px-3 py-4 pr-12 text-deep-blue text-base border-2 border-silver-cloud placeholder:text-tranquil-blue"
 						/>
-						{errors.price && (
-							<p className="text-red-500 text-sm">{errors.price?.message}</p>
+						{errors.setPrice && (
+							<p className="text-red-500 text-sm">{errors.setPrice?.message}</p>
 						)}
 					</div>
-
 					<div className="mb-4">
-						<textarea
-							id="message"
-							{...register("message")}
-							placeholder="Message"
+						<input
+							type="text"
+							id="marketPrice"
+							{...register("marketPrice")}
+							placeholder="Market Price"
 							className="rounded-lg w-full px-3 py-4 pr-12 text-deep-blue text-base border-2 border-silver-cloud placeholder:text-tranquil-blue"
 						/>
-						{errors.message && (
-							<p className="text-red-500 text-sm">{errors.message?.message}</p>
+						{errors.marketPrice && (
+							<p className="text-red-500 text-sm">
+								{errors.marketPrice?.message}
+							</p>
 						)}
 					</div>
 
@@ -151,7 +115,7 @@ const ReportForm = () => {
 						type="submit"
 						className="flex items-center justify-center bg-[#5630FF] text-white border border-[#DFDFDF] rounded-lg px-12 py-5  w-100 font-semibold text-lg"
 					>
-						Submit Report
+						Update Todays Price
 					</button>
 				</form>
 			</div>
@@ -159,4 +123,4 @@ const ReportForm = () => {
 	);
 };
 
-export default ReportForm;
+export default GovtPanelForm;
