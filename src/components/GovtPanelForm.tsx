@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "react-toastify";
 
-import { IGovtPanelRequest, IReportRequest } from "../models/Auth";
+import { IGovtPanelRequest } from "../models/Auth";
 import { getBaseUrl } from "../hooks/baseUrl";
 import axios from "axios";
 import { routes } from "../constants/Route";
@@ -62,9 +62,7 @@ const GovtPanelForm = () => {
 	return (
 		<div className="pb-4">
 			<div className="mt-12 2xl:mt-16 flex flex-col justify-center items-center ">
-				<h2 className="text-4xl font-semibold">
-					Welcome to Report Submit Page
-				</h2>
+				<h2 className="text-4xl font-semibold">Welcome to Govt Panel Page</h2>
 			</div>
 			<div className="flex flex-col justify-center items-center mt-10">
 				<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
