@@ -23,7 +23,7 @@ export interface IReportRequest {
 }
 
 export interface IGovtPanelRequest {
-	productName: string;
-	setPrice: string;
-	marketPrice: string;
+	product_name: string;
+	set_product_price: number;
+	product_market_price: number;
 }

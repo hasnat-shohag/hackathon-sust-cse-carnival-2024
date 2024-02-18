@@ -38,8 +38,7 @@ const ReportForm = () => {
 
 	const onSubmit: SubmitHandler<IReportRequest> = async (payload) => {
 		try {
-			const url = getBaseUrl() + "/auth/register"; // Endpoint update later
-			await axios.post(url, payload);
+			console.log(payload);
 			toast.success("Reported successfully!", {
 				autoClose,
 			});
@@ -75,7 +74,7 @@ const ReportForm = () => {
 							type="text"
 							id="nid"
 							{...register("nid")}
-							placeholder="NID Number" 
+							placeholder="NID Number"
 							className="rounded-lg w-full px-3 py-4 pr-12 text-deep-blue text-base border-2 border-silver-cloud placeholder:text-tranquil-blue"
 						/>
 						{errors.nid && (

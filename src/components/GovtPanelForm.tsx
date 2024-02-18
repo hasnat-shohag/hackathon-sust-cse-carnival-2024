@@ -10,10 +10,12 @@ import axios from "axios";
 import { routes } from "../constants/Route";
 import React, { useState } from "react";
 
+import { getAuthToken } from "../utils/token";
+
 const validationSchema = Yup.object({
-	productName: Yup.string(),
-	setPrice: Yup.string().required("Price is required"),
-	marketPrice: Yup.string().required("Market price is required"),
+	product_name: Yup.string(),
+	set_product_price: Yup.number().required("Price is required"),
+	product_market_price: Yup.number().required("Market price is required"),
 });
 
 const productNames = ["Beef", "Mutton", "Egg", "Onion"];
@@ -27,17 +29,20 @@ const GovtPanelForm = () => {
 		formState: { errors },
 	} = useForm<IGovtPanelRequest>({
 		resolver: yupResolver<IGovtPanelRequest>(validationSchema),
-		defaultValues: {
-			productName: "",
-			setPrice: "",
-			marketPrice: "",
-		},
+		defaultValues: {},
 	});
 
 	const onSubmit: SubmitHandler<IGovtPanelRequest> = async (payload) => {
 		try {
-			const url = getBaseUrl() + "/auth/register"; // Endpoint update later
-			await axios.post(url, payload);
+			console.log(payload);
+			payload.product_name = selectedProductName;
+			const url = getBaseUrl() + "/govt/editProduct/" + payload.product_name;
+			await axios.put(url, payload, {
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${getAuthToken()}`,
+				},
+			});
 			toast.success("Todays price updated successfully!", {
 				autoClose,
 			});
@@ -50,8 +55,7 @@ const GovtPanelForm = () => {
 		}
 	};
 
-	const [selectedProductName, setSelectedProductName] =
-		useState<string>("product name");
+	const [selectedProductName, setSelectedProductName] = useState<string>("Beef");
 
 	const handleProductNameSelection = (
 		event: React.ChangeEvent<HTMLSelectElement>
@@ -68,8 +72,8 @@ const GovtPanelForm = () => {
 				<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
 					<div className="mb-4">
 						<select
-							id="productName"
-							name="productName"
+							id="product_name"
+							name="product_name"
 							className="rounded-lg w-full px-3 py-4 pr-12 text-deep-blue text-base border-2 border-silver-cloud placeholder:text-tranquil-blue bg-white"
 							onChange={handleProductNameSelection}
 							value={selectedProductName}
@@ -84,27 +88,29 @@ const GovtPanelForm = () => {
 
 					<div className="mb-4">
 						<input
-							type="text"
-							id="setPrice"
-							{...register("setPrice")}
+							type="number"
+							id="set_product_price"
+							{...register("set_product_price")}
 							placeholder="Set Price"
 							className="rounded-lg w-full px-3 py-4 pr-12 text-deep-blue text-base border-2 border-silver-cloud placeholder:text-tranquil-blue"
 						/>
-						{errors.setPrice && (
-							<p className="text-red-500 text-sm">{errors.setPrice?.message}</p>
+						{errors.set_product_price && (
+							<p className="text-red-500 text-sm">
+								{errors.set_product_price?.message}
+							</p>
 						)}
 					</div>
 					<div className="mb-4">
 						<input
-							type="text"
-							id="marketPrice"
-							{...register("marketPrice")}
+							type="number"
+							id="set_product_price"
+							{...register("product_market_price")}
 							placeholder="Market Price"
 							className="rounded-lg w-full px-3 py-4 pr-12 text-deep-blue text-base border-2 border-silver-cloud placeholder:text-tranquil-blue"
 						/>
-						{errors.marketPrice && (
+						{errors.product_market_price && (
 							<p className="text-red-500 text-sm">
-								{errors.marketPrice?.message}
+								{errors.product_market_price?.message}
 							</p>
 						)}
 					</div>
