@@ -41,7 +41,7 @@ const Navbar = () => {
 				</div>
 				{/* Right Side */}
 				<div>
-					<ul className="flex gap-5">
+					<ul className="flex gap-10">
 						{navItems.map((item) => (
 							<li key={item.key}>
 								<a href={item.path} className="text-white">
