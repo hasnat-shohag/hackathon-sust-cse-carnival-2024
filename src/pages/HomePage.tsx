@@ -11,6 +11,7 @@ import mutton from "../assets/images/mutton.png";
 import beef from "../assets/images/beef.png";
 import { getBaseUrl } from "../hooks/baseUrl";
 import axios from "axios";
+import ServicePage from "./ServicePage";
 
 const productImages = [egg, beef, mutton, onion];
 
@@ -50,17 +51,19 @@ const HomePage: FC = () => {
 				<Navbar />
 			</div>
 			{/* banner */}
-			<div className="flex justify-between p-16 items-center">
+			<div className="flex justify-around py-16 items-center">
 				{/* left */}
 				<div className="">
 					<p className="text-red-600 mb-2">Let’s shift your business</p>
 					<h2 className="font-bold text-[60px] mb-3">
-						Shift your business <br /> fast with Shade Pro.
+						UNLEASH THE POWER OF <br /> SYNDICATE PREDICTION
 					</h2>
-					<p>
-						With lots of unique blocks, you can easily build a page without{" "}
+					<p className="text-gray-600">
+						Experience the power of our syndicate prediction system, providing{" "}
 						<br />
-						coding. Build your next consultancy website within few minutes.
+						you with real-time updates and reports on unusual price movements.{" "}
+						<br />
+						Stay informed, stay profitable.
 					</p>
 					<button
 						onClick={() => {
@@ -76,6 +79,7 @@ const HomePage: FC = () => {
 					<img src={bannerimage} alt="bannerimage" className="w-[100%]" />
 				</div>
 			</div>
+			<ServicePage />
 			<div className="my-10">
 				<h1 className="text-4xl font-bold text-center mb-10">Products List</h1>
 				<div className="flex justify-center">
@@ -88,6 +92,10 @@ const HomePage: FC = () => {
 						/>
 					))}
 				</div>
+			</div>
+			{/* Footer */}
+			<div className="flex justify-center py-5 bg-gray-200">
+				<p>All rights reserved by RU Code Smiths.</p>
 			</div>
 		</div>
 	);

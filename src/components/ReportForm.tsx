@@ -5,8 +5,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "react-toastify";
 
 import { IReportRequest } from "../models/Auth";
-import { getBaseUrl } from "../hooks/baseUrl";
-import axios from "axios";
 import { routes } from "../constants/Route";
 import React, { useState } from "react";
 
@@ -39,6 +37,7 @@ const ReportForm = () => {
 	const onSubmit: SubmitHandler<IReportRequest> = async (payload) => {
 		try {
 			console.log(payload);
+			// Endpoint not implemented
 			toast.success("Reported successfully!", {
 				autoClose,
 			});
