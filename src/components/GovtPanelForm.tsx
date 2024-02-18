@@ -8,7 +8,7 @@ import { IGovtPanelRequest } from "../models/Auth";
 import { getBaseUrl } from "../hooks/baseUrl";
 import axios from "axios";
 import { routes } from "../constants/Route";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { getAuthToken } from "../utils/token";
 
@@ -55,7 +55,10 @@ const GovtPanelForm = () => {
 		}
 	};
 
-	const [selectedProductName, setSelectedProductName] = useState<string>("Beef");
+	const [selectedProductName, setSelectedProductName] =
+		useState<string>("Beef");
+
+	const [showPrediction, setShowPrediction] = useState(false);
 
 	const handleProductNameSelection = (
 		event: React.ChangeEvent<HTMLSelectElement>
@@ -63,11 +66,56 @@ const GovtPanelForm = () => {
 		setSelectedProductName(event.target.value);
 	};
 
+	const isMount = useRef<boolean>(false);
+
+	const [heading, setHeading] = useState<string>("");
+	const [message, setMessage] = useState<string>("");
+
+	useEffect(() => {
+		if (isMount.current) {
+			// fetch prediction data
+			const response = async () => {
+				const url = getBaseUrl() + "/govt/getSyndicateDetection";
+				try {
+					const response = await axios.get(url, {
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: `Bearer ${getAuthToken()}`,
+						},
+					});
+					console.log(response.data);
+					setHeading(response.data.heading);
+					setMessage(response.data.message);
+				} catch (error) {
+					console.log(error);
+				}
+			};
+
+			response();
+		} else {
+			isMount.current = true;
+		}
+	}, [isMount]);
+
 	return (
-		<div className="pb-4">
+		<div className="mb-5">
 			<div className="mt-12 2xl:mt-16 flex flex-col justify-center items-center ">
 				<h2 className="text-4xl font-semibold">Welcome to Govt Panel Page</h2>
+				<button
+					className="bg-blue-600 px-5 py-3 rounded-lg mt-5 text-white"
+					onClick={() => setShowPrediction(true)}
+				>
+					Show Prediction
+				</button>
 			</div>
+
+			{showPrediction && (
+				<div className="text-red-600 p-10 mt-5 border-2">
+					<h1 className="text-3xl">{heading}</h1>
+					<p className="py-5">{message}</p>
+				</div>
+			)}
+
 			<div className="flex flex-col justify-center items-center mt-10">
 				<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
 					<div className="mb-4">

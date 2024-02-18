@@ -11,6 +11,7 @@ import AdminPanel from "../pages/AdminPanel";
 import PublicWrapper from "../components/Layout/PublicWrapper";
 import ReportPage from "../pages/ReportPage";
 import GovtPanel from "../pages/GovtPanel";
+import AwarenessPage from "../pages/AwarenessPage";
 
 const MainRoutes = createBrowserRouter([
 	{
@@ -28,6 +29,10 @@ const MainRoutes = createBrowserRouter([
 				path: routes.home.path,
 				element: <HomePage />,
 			},
+			{
+				path: routes.awareness.path,
+				element: <AwarenessPage />,
+			}
 		],
 	},
 	{

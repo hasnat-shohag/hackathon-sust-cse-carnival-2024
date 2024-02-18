@@ -34,4 +34,9 @@ export const routes = {
 		key: "government-panel",
 		path: "/government-panel",
 	},
+	awareness: {
+		title: "Awareness",
+		key: "awareness",
+		path: "/awareness",
+	},
 };

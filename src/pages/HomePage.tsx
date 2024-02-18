@@ -22,7 +22,7 @@ interface IProductResponse {
 
 const HomePage: FC = () => {
 	const navigate = useNavigate();
-	const isMount = useRef(false);
+	const isMount = useRef<boolean>(false);
 
 	const [products, setProducts] = useState<IProductResponse[]>([]);
 
@@ -51,7 +51,7 @@ const HomePage: FC = () => {
 				<Navbar />
 			</div>
 			{/* banner */}
-			<div className="flex justify-around py-16 items-center">
+			<div className="flex justify-around py-20 items-center">
 				{/* left */}
 				<div className="">
 					<p className="text-red-600 mb-2">Let’s shift your business</p>

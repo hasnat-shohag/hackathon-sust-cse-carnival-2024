@@ -7,7 +7,7 @@ import marketAwareness from "../assets/images/marketAwareness.png";
 
 const ServicePage: FC = () => {
 	return (
-		<div className="flex flex-col justify-center items-center">
+		<div className="flex flex-col justify-center items-center py-20">
 			{/* top */}
 			<div>
 				<p className="text-red-600 text-center pb-6">Our services</p>
